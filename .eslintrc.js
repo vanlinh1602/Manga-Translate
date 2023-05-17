@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    jest: true
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -10,16 +10,16 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:react-hooks/recommended',
     'airbnb',
-    'airbnb-typescript'
+    'airbnb-typescript',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.json']
+    project: ['./tsconfig.json'],
   },
   plugins: [
     'react',
@@ -28,7 +28,7 @@ module.exports = {
     'simple-import-sort',
     'unused-imports',
     'react-hooks',
-    'prettier'
+    'prettier',
   ],
   rules: {
     'function-paren-newline': 0,
@@ -67,10 +67,11 @@ module.exports = {
         js: 'never',
         jsx: 'never',
         ts: 'never',
-        tsx: 'never'
-      }
+        tsx: 'never',
+      },
     ],
     'import/no-import-module-exports': 0,
+    'import/no-extraneous-dependencies': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     'unused-imports/no-unused-imports': 'error',
@@ -80,11 +81,11 @@ module.exports = {
         vars: 'all',
         varsIgnorePattern: '^_',
         args: 'after-used',
-        argsIgnorePattern: '^_'
-      }
+        argsIgnorePattern: '^_',
+      },
     ],
     'react-hooks/rules-of-hooks': 'warn',
     'jsx-a11y/click-events-have-key-events': 0,
-    'jsx-a11y/no-static-element-interactions': 0
-  }
-}
+    'jsx-a11y/no-static-element-interactions': 0,
+  },
+};
