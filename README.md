@@ -1,6 +1,6 @@
 # Manga Translate web
 
-Website support for translate mange
+Website support for translate manga
 
 # Start project
 
