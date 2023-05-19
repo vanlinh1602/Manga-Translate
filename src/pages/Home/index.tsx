@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import Translate from 'features/translate';
+import Translate from 'features/Translate';
 
 const Home = () => (
   <Layout>
