@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/885.3e63ccd5.chunk.js","mappings":"oJAIA,UAFgB,WAAH,OAASA,EAAAA,EAAAA,KAACC,EAAAA,EAAM,CAAAC,SAAC,YAAkB,C","sources":["pages/AboutUs/index.tsx"],"sourcesContent":["import { Layout } from 'antd';\n\nconst AboutUs = () => <Layout>About US</Layout>;\n\nexport default AboutUs;\n"],"names":["_jsx","Layout","children"],"sourceRoot":""}

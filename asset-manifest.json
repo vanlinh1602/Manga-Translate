@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/Manga-Translate/static/css/main.081fb538.css",
+    "main.js": "/Manga-Translate/static/js/main.bc603dea.js",
+    "static/css/745.aeec74c8.chunk.css": "/Manga-Translate/static/css/745.aeec74c8.chunk.css",
+    "static/js/745.48d4d974.chunk.js": "/Manga-Translate/static/js/745.48d4d974.chunk.js",
+    "static/js/885.3e63ccd5.chunk.js": "/Manga-Translate/static/js/885.3e63ccd5.chunk.js",
+    "static/js/941.745bef36.chunk.js": "/Manga-Translate/static/js/941.745bef36.chunk.js",
+    "index.html": "/Manga-Translate/index.html",
+    "main.081fb538.css.map": "/Manga-Translate/static/css/main.081fb538.css.map",
+    "main.bc603dea.js.map": "/Manga-Translate/static/js/main.bc603dea.js.map",
+    "745.aeec74c8.chunk.css.map": "/Manga-Translate/static/css/745.aeec74c8.chunk.css.map",
+    "745.48d4d974.chunk.js.map": "/Manga-Translate/static/js/745.48d4d974.chunk.js.map",
+    "885.3e63ccd5.chunk.js.map": "/Manga-Translate/static/js/885.3e63ccd5.chunk.js.map",
+    "941.745bef36.chunk.js.map": "/Manga-Translate/static/js/941.745bef36.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.081fb538.css",
+    "static/js/main.bc603dea.js"
+  ]
+}

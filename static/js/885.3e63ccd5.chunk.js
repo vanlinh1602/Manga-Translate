@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkmanga_translate=self.webpackChunkmanga_translate||[]).push([[885],{2885:function(a,n,t){t.r(n);var e=t(586),u=t(184);n.default=function(){return(0,u.jsx)(e.Z,{children:"About US"})}}}]);
+//# sourceMappingURL=885.3e63ccd5.chunk.js.map
