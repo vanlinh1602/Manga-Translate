@@ -1,46 +1,55 @@
-import { InboxOutlined } from '@ant-design/icons';
-import { Col, Layout, Row, Space, Upload } from 'antd';
-import type { RcFile } from 'antd/lib/upload';
-import React from 'react';
+import { Col, Image, Layout, notification, Row } from 'antd';
+import Waiting from 'components/Waiting';
+import React, { useState } from 'react';
+import { backendService } from 'services';
 
+import PickImage from './PickImage';
 import S from './styles.module.less';
-
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import TranslateOptions from './TranslateOptions';
+import type { ImageDeteted } from './types';
+import UploadOptions from './UploadOptions';
 
 const Translate = () => {
-  const { Dragger } = Upload;
+  const [img, setImg] = useState<string>();
+  const [waiting, setWaiting] = useState<boolean>(false);
+  const [dataDetect, setDataDetect] = useState<ImageDeteted>();
+
+  const detectBubble = () => {
+    if (img) {
+      setWaiting(true);
+      const base64Img = img?.toString().split(',')[1];
+      backendService.post<ImageDeteted>('/detectBubble', { image: base64Img }).then((result) => {
+        setWaiting(false);
+        if (result.kind === 'ok') {
+          setDataDetect(result.data);
+          setImg(`data:image/jpeg;base64,${result.data.image}`);
+        }
+      });
+    } else {
+      notification.warn({ message: 'Image not found', description: 'Please select image' });
+    }
+  };
   return (
-    <Layout>
+    <Layout className={S.container}>
+      {waiting ? <Waiting /> : null}
       <Layout.Header>Translate Image</Layout.Header>
-      <Layout.Content className={S.container}>
-        <Row style={{ height: '1vh' }}>
+      <Layout.Content className={S.content}>
+        <Row gutter={[16, 8]}>
           <Col span={10}>
-            <Space>
-              <Dragger
-                style={{
-                  height: 500,
+            {img ? <Image src={img} /> : <PickImage onSelect={(value) => setImg(value)} />}
+          </Col>
+          <Col span={14}>
+            {dataDetect ? (
+              <TranslateOptions
+                data={dataDetect.groupText}
+                handleRemove={() => {
+                  setImg(undefined);
+                  setDataDetect(undefined);
                 }}
-                name="file"
-                beforeUpload={(file) => {
-                  getBase64(file).then((value) => console.log(value));
-                }}
-              >
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload. Strictly prohibited from uploading company
-                  data or other banned files.
-                </p>
-              </Dragger>
-            </Space>
+              />
+            ) : (
+              <UploadOptions detectBubble={detectBubble} handleRemove={() => setImg(undefined)} />
+            )}
           </Col>
         </Row>
       </Layout.Content>
