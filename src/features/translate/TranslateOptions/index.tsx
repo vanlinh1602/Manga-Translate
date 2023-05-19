@@ -1,27 +1,44 @@
 import { Button, Col, Form, Input, Layout, Row, Switch } from 'antd';
 import { useEffect } from 'react';
+import { backendService } from 'services';
 
-import type { GroupText } from '../types';
+import type { GroupText, ImageDeteted } from '../types';
 
 type Props = {
   handleRemove: () => void;
-  data: CustomObject<GroupText>;
+  data: ImageDeteted;
+  onSucces: (img: string) => void;
 };
 
-const TranslateOptions = ({ handleRemove, data }: Props) => {
+const TranslateOptions = ({ handleRemove, data, onSucces }: Props) => {
   const [form] = Form.useForm<CustomObject<GroupText>>();
   useEffect(() => {
-    form.setFieldsValue(data);
+    form.setFieldsValue(data.groupText);
   }, [form, data]);
 
   const handleTranslate = () => {};
+  const handleRemoveText = () => {
+    const dataLocation: CustomObject<number[][]> = {};
+    Object.entries(data.groupText).forEach(([key, group]) => {
+      dataLocation[key] = group.locate;
+    });
 
-  const handleRemoveText = () => {};
+    const dataPost = {
+      image: data.originImage,
+      location: dataLocation,
+    };
+
+    backendService.post<{ image: string }>('/removeText', dataPost).then((result) => {
+      if (result.kind === 'ok') {
+        onSucces(result.data.image);
+      }
+    });
+  };
 
   return (
     <Layout style={{ background: 'white' }}>
       <Form form={form} layout="vertical">
-        {Object.entries(data ?? {}).map(([key], index) => (
+        {Object.entries(data.groupText ?? {}).map(([key], index) => (
           <Row gutter={10} align="middle" key={key}>
             <Col span={2}>
               <Form.Item label="Select" name={[key, 'isTrans']} valuePropName="checked">

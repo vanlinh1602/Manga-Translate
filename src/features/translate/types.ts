@@ -4,6 +4,7 @@ export type GroupText = {
 };
 
 export type ImageDeteted = {
-  image: string;
+  originImage: string;
+  imageDetected: string;
   groupText: CustomObject<GroupText>;
 };

@@ -22,7 +22,7 @@ const Translate = () => {
         setWaiting(false);
         if (result.kind === 'ok') {
           setDataDetect(result.data);
-          setImg(`data:image/jpeg;base64,${result.data.image}`);
+          setImg(`data:image/jpeg;base64,${result.data.imageDetected}`);
         }
       });
     } else {
@@ -41,7 +41,8 @@ const Translate = () => {
           <Col span={14}>
             {dataDetect ? (
               <TranslateOptions
-                data={dataDetect.groupText}
+                onSucces={(value) => setImg(`data:image/jpeg;base64,${value}`)}
+                data={dataDetect}
                 handleRemove={() => {
                   setImg(undefined);
                   setDataDetect(undefined);
