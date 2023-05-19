@@ -8,7 +8,7 @@ const HomePage = lazy(() => import('pages/Home'));
 const AboutUsPage = lazy(() => import('pages/AboutUs'));
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Manga-Translate">
       <Suspense fallback={<Waiting />}>
         <Layout>
           <Sider />
