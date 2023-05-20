@@ -34,15 +34,19 @@ const Translate = () => {
       {waiting ? <Waiting /> : null}
       <Layout.Header>Translate Image</Layout.Header>
       <Layout.Content className={S.content}>
-        <Row gutter={[16, 8]}>
+        <Row gutter={[16, 8]} style={{ minHeight: window.innerHeight - 200 }}>
           <Col span={10}>
-            {img ? <Image src={img} /> : <PickImage onSelect={(value) => setImg(value)} />}
+            {img ? (
+              <Image style={{ maxHeight: window.innerHeight - 200 }} src={img} />
+            ) : (
+              <PickImage onSelect={(value) => setImg(value)} />
+            )}
           </Col>
           <Col span={14}>
             {dataDetect ? (
               <TranslateOptions
                 onSucces={(value) => setImg(`data:image/jpeg;base64,${value}`)}
-                data={dataDetect}
+                dataDetect={dataDetect}
                 handleRemove={() => {
                   setImg(undefined);
                   setDataDetect(undefined);
