@@ -24,7 +24,7 @@ const TranslateOptions = ({ handleRemove, dataDetect, onSucces }: Props) => {
       originForm[key] = {
         isTrans: true,
         text: group.text,
-        textTrans: 'Tiếng việt nè',
+        textTrans: group.textTrans,
       };
     });
     form.setFieldsValue(originForm);

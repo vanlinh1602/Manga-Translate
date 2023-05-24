@@ -1,6 +1,7 @@
 export type GroupText = {
   locate: number[][];
   text: string;
+  textTrans: string;
 };
 
 export type ImageDeteted = {
