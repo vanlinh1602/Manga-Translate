@@ -79,7 +79,7 @@ const Header = () => {
               <Col span={3}>
                 <Form.Item label="Cỡ chữ" name="fontSize">
                   <Select
-                    options={range(10, 30, 1).map((value) => ({
+                    options={range(10, 50, 1).map((value) => ({
                       value,
                       label: value,
                     }))}
