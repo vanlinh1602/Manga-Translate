@@ -1,3 +1,5 @@
+import type { TranslateState } from 'features/Translate/types';
+
 export type RootState = {
-  userStore: string;
+  translateStore: TranslateState;
 };

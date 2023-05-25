@@ -1,61 +1,40 @@
-import { Col, Image, Layout, notification, Row } from 'antd';
+import { Col, Image, Layout, Row } from 'antd';
 import Waiting from 'components/Waiting';
-import React, { useState } from 'react';
-import { backendService } from 'services';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { getUrlImageBase64 } from 'utils/image';
 
+import Header from './Header';
 import PickImage from './PickImage';
+import { selectDataDetect, selectOriginImage, selectWating } from './store/selectors';
 import S from './styles.module.less';
 import TranslateOptions from './TranslateOptions';
-import type { ImageDeteted } from './types';
-import UploadOptions from './UploadOptions';
 
 const Translate = () => {
-  const [img, setImg] = useState<string>();
-  const [waiting, setWaiting] = useState<boolean>(false);
-  const [dataDetect, setDataDetect] = useState<ImageDeteted>();
-
-  const detectBubble = () => {
-    if (img) {
-      setWaiting(true);
-      const base64Img = img?.toString().split(',')[1];
-      backendService.post<ImageDeteted>('/detectBubble', { image: base64Img }).then((result) => {
-        setWaiting(false);
-        if (result.kind === 'ok') {
-          setDataDetect(result.data);
-          setImg(`data:image/jpeg;base64,${result.data.imageDetected}`);
-        }
-      });
-    } else {
-      notification.warn({ message: 'Image not found', description: 'Please select image' });
-    }
-  };
+  const img = useSelector(selectOriginImage);
+  const waiting = useSelector(selectWating);
+  const dataDetect = useSelector(selectDataDetect);
   return (
     <Layout className={S.container}>
       {waiting ? <Waiting /> : null}
-      <Layout.Header>Translate Image</Layout.Header>
+      <Header />
       <Layout.Content className={S.content}>
         <Row gutter={[16, 8]} style={{ minHeight: window.innerHeight - 200 }}>
-          <Col span={10}>
+          <Col span={img ? 10 : 24}>
             {img ? (
-              <Image style={{ maxHeight: window.innerHeight - 200 }} src={img} />
-            ) : (
-              <PickImage onSelect={(value) => setImg(value)} />
-            )}
-          </Col>
-          <Col span={14}>
-            {dataDetect ? (
-              <TranslateOptions
-                onSucces={(value) => setImg(`data:image/jpeg;base64,${value}`)}
-                dataDetect={dataDetect}
-                handleRemove={() => {
-                  setImg(undefined);
-                  setDataDetect(undefined);
-                }}
+              <Image
+                style={{ maxHeight: window.innerHeight - 200 }}
+                src={
+                  dataDetect?.imageDetected
+                    ? getUrlImageBase64(dataDetect.imageDetected)
+                    : getUrlImageBase64(img)
+                }
               />
             ) : (
-              <UploadOptions detectBubble={detectBubble} handleRemove={() => setImg(undefined)} />
+              <PickImage />
             )}
           </Col>
+          <Col span={14}>{dataDetect ? <TranslateOptions /> : null}</Col>
         </Row>
       </Layout.Content>
     </Layout>

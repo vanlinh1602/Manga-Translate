@@ -1,14 +1,10 @@
 import { Button, Col, Form, Input, Layout, Row, Switch } from 'antd';
 import { useEffect } from 'react';
-import { backendService } from 'services';
+import { useDispatch, useSelector } from 'react-redux';
 
-import type { ImageDeteted } from '../types';
-
-type Props = {
-  handleRemove: () => void;
-  dataDetect: ImageDeteted;
-  onSucces: (img: string) => void;
-};
+import { useTranslateSlice } from '../store';
+import { selectDataDetect, selectShowOriginText } from '../store/selectors';
+import type { DataTranslate } from '../types';
 
 type CustomForm = CustomObject<{
   isTrans: boolean;
@@ -16,11 +12,16 @@ type CustomForm = CustomObject<{
   textTrans: string;
 }>;
 
-const TranslateOptions = ({ handleRemove, dataDetect, onSucces }: Props) => {
+const TranslateOptions = () => {
   const [form] = Form.useForm<CustomForm>();
+  const dispatch = useDispatch();
+  const { actions } = useTranslateSlice();
+  const dataDetect = useSelector(selectDataDetect);
+  const showOriginText = useSelector(selectShowOriginText);
+
   useEffect(() => {
     const originForm: CustomForm = {};
-    Object.entries(dataDetect.groupText ?? {}).forEach(([key, group]) => {
+    Object.entries(dataDetect?.groupText ?? {}).forEach(([key, group]) => {
       originForm[key] = {
         isTrans: true,
         text: group.text,
@@ -28,71 +29,57 @@ const TranslateOptions = ({ handleRemove, dataDetect, onSucces }: Props) => {
       };
     });
     form.setFieldsValue(originForm);
-  }, [form, dataDetect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
 
   const handleTranslate = () => {
     const dataForm = form.getFieldsValue();
-    const dataTrans: { textTrans: string; location: number[][] }[] = [];
+    const dataTrans: DataTranslate[] = [];
 
     Object.entries(dataForm ?? {}).forEach(([key, data]) => {
       if (data.isTrans) {
         dataTrans.push({
-          textTrans: dataForm[key].textTrans,
-          location: dataDetect.groupText[key].locate,
+          text: dataForm[key].textTrans,
+          location: dataDetect?.groupText?.[key].locate!,
         });
       }
     });
-
-    const dataPost = {
-      image: dataDetect.originImage,
-      dataTrans,
-    };
-
-    backendService.post<{ image: string }>('/translateText', dataPost).then((result) => {
-      if (result.kind === 'ok') {
-        onSucces(result.data.image);
-      }
-    });
+    dispatch(actions.translateText(dataTrans));
   };
   const handleRemoveText = () => {
     const dataForm = form.getFieldsValue();
     const dataLocation: CustomObject<number[][]> = {};
     Object.entries(dataForm).forEach(([key, group]) => {
       if (group.isTrans) {
-        dataLocation[key] = dataDetect.groupText[key].locate;
+        dataLocation[key] = dataDetect?.groupText?.[key].locate!;
       }
     });
-
-    const dataPost = {
-      image: dataDetect.originImage,
-      location: dataLocation,
-    };
-
-    backendService.post<{ image: string }>('/removeText', dataPost).then((result) => {
-      if (result.kind === 'ok') {
-        onSucces(result.data.image);
-      }
-    });
+    dispatch(actions.removeText(dataLocation));
   };
 
   return (
     <Layout style={{ background: 'white' }}>
       <Form form={form} layout="vertical">
-        {Object.entries(dataDetect.groupText ?? {}).map(([key], index) => (
+        {Object.entries(dataDetect?.groupText ?? {}).map(([key], index) => (
           <Row gutter={10} align="middle" key={key}>
+            {showOriginText ? (
+              <Col span={11}>
+                <Form.Item label={`Group ${index + 1}`} name={[key, 'text']}>
+                  <Input />
+                </Form.Item>
+              </Col>
+            ) : null}
+            <Col span={showOriginText ? 11 : 22}>
+              <Form.Item
+                label={showOriginText ? 'Bản dịch' : `Group ${index + 1}`}
+                name={[key, 'textTrans']}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
             <Col span={2}>
-              <Form.Item label="Select" name={[key, 'isTrans']} valuePropName="checked">
+              <Form.Item label="Chọn" name={[key, 'isTrans']} valuePropName="checked">
                 <Switch />
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item label={`Group ${index + 1}`} name={[key, 'text']}>
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={11}>
-              <Form.Item label="Translate" name={[key, 'textTrans']}>
-                <Input />
               </Form.Item>
             </Col>
           </Row>
@@ -100,20 +87,13 @@ const TranslateOptions = ({ handleRemove, dataDetect, onSucces }: Props) => {
       </Form>
       <Row gutter={[10, 10]} style={{ justifyContent: 'center' }}>
         <Col>
-          <Button danger type="primary" onClick={handleRemoveText}>
-            Remove Text In Comic
-          </Button>
-        </Col>
-        <Col>
           <Button type="primary" onClick={handleTranslate}>
             Translate Comic
           </Button>
         </Col>
-      </Row>
-      <Row style={{ justifyContent: 'center', marginTop: 10 }}>
         <Col>
-          <Button type="primary" onClick={handleRemove}>
-            Remove/Change Image
+          <Button danger type="primary" onClick={handleRemoveText}>
+            Remove Text In Comic
           </Button>
         </Col>
       </Row>

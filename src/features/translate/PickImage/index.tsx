@@ -1,20 +1,20 @@
 import { InboxOutlined } from '@ant-design/icons';
 import { Upload } from 'antd';
+import { useDispatch } from 'react-redux';
 import { getBase64 } from 'utils/image';
 
-type Props = {
-  onSelect: (value: string) => void;
-};
+import { useTranslateSlice } from '../store';
 
-const PickImage = ({ onSelect }: Props) => {
+const PickImage = () => {
   const { Dragger } = Upload;
-
+  const dispatch = useDispatch();
+  const { actions } = useTranslateSlice();
   return (
     <Dragger
       height={window.innerHeight - 200}
       name="file"
       beforeUpload={(file) => {
-        getBase64(file).then((value) => onSelect(value));
+        getBase64(file).then((value) => dispatch(actions.updateOriginImage(value)));
       }}
     >
       <p className="ant-upload-drag-icon">
