@@ -6,7 +6,7 @@ import type { DataTranslate, ImageDeteted, TranslateState } from '../types';
 export const initialState: TranslateState = {
   fontSize: 14,
   maxWidth: 15,
-  showOriginText: true,
+  showOriginText: false,
   handing: false,
 };
 

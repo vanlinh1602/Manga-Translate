@@ -60,30 +60,29 @@ const TranslateOptions = () => {
   return (
     <Layout style={{ background: 'white' }}>
       <Form form={form} layout="vertical">
-        {Object.entries(dataDetect?.groupText ?? {}).map(([key], index) => (
-          <Row gutter={10} align="middle" key={key}>
-            {showOriginText ? (
-              <Col span={11}>
-                <Form.Item label={`Group ${index + 1}`} name={[key, 'text']}>
+        {Object.entries(dataDetect?.groupText ?? {})
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([key]) => (
+            <Row gutter={10} align="middle" key={key}>
+              {showOriginText ? (
+                <Col span={11}>
+                  <Form.Item label={key} name={[key, 'text']}>
+                    <Input />
+                  </Form.Item>
+                </Col>
+              ) : null}
+              <Col span={showOriginText ? 11 : 22}>
+                <Form.Item label={showOriginText ? 'Bản dịch' : key} name={[key, 'textTrans']}>
                   <Input />
                 </Form.Item>
               </Col>
-            ) : null}
-            <Col span={showOriginText ? 11 : 22}>
-              <Form.Item
-                label={showOriginText ? 'Bản dịch' : `Group ${index + 1}`}
-                name={[key, 'textTrans']}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={2}>
-              <Form.Item label="Chọn" name={[key, 'isTrans']} valuePropName="checked">
-                <Switch />
-              </Form.Item>
-            </Col>
-          </Row>
-        ))}
+              <Col span={2}>
+                <Form.Item label="Chọn" name={[key, 'isTrans']} valuePropName="checked">
+                  <Switch />
+                </Form.Item>
+              </Col>
+            </Row>
+          ))}
       </Form>
       <Row gutter={[10, 10]} style={{ justifyContent: 'center' }}>
         <Col>

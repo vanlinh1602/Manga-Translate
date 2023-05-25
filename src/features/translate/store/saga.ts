@@ -18,6 +18,7 @@ function* detectBubble() {
     yield put(translateAction.updateDataDetect(result.data));
     return;
   }
+  yield put(translateAction.updateDataDetect(undefined));
   notification.warning({
     message: 'Detect Fail',
     description: result.kind,
@@ -42,7 +43,7 @@ function* translateText(action: PayloadAction<DataTranslate[]>) {
     return;
   }
   notification.warning({
-    message: 'Detect Fail',
+    message: 'Translate Fail',
     description: result.kind,
   });
 }
@@ -63,7 +64,7 @@ function* removeText(action: PayloadAction<CustomObject<number[][]>>) {
     return;
   }
   notification.warning({
-    message: 'Detect Fail',
+    message: 'Remmove Text Fail',
     description: result.kind,
   });
 }
