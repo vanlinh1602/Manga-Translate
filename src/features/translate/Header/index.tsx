@@ -1,5 +1,6 @@
 import { Button, Checkbox, Col, Form, Layout, Row, Select, Typography } from 'antd';
-import { range } from 'lodash';
+import { FONTS } from 'lib/options';
+import _, { range } from 'lodash';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,6 +12,8 @@ type CustomForm = {
   fontSize: number;
   showOriginText: boolean;
   maxWidth: number;
+  useCurrentImage: boolean;
+  font: string;
 };
 
 const Header = () => {
@@ -24,6 +27,8 @@ const Header = () => {
       fontSize: translateData.fontSize,
       showOriginText: translateData.showOriginText,
       maxWidth: translateData.maxWidth,
+      useCurrentImage: translateData.useCurrentImage,
+      font: translateData.font,
     });
   }, [form, translateData]);
 
@@ -55,23 +60,27 @@ const Header = () => {
             layout="vertical"
             style={{ width: '100%' }}
             onValuesChange={(value) => {
-              const { fontSize, maxWidth, showOriginText } = value;
+              const { fontSize, maxWidth, showOriginText, useCurrentImage, font } = value;
               if (fontSize) {
                 dispatch(actions.changeFontSize(fontSize));
               } else if (maxWidth) {
                 dispatch(actions.changeMaxWidth(maxWidth));
-              } else {
+              } else if (!_.isNil(showOriginText)) {
                 dispatch(actions.changeShowOriginText(showOriginText));
+              } else if (!_.isNil(useCurrentImage)) {
+                dispatch(actions.changeUseCurrentImage(useCurrentImage));
+              } else if (font) {
+                dispatch(actions.changeFont(font));
               }
             }}
           >
             <Row gutter={[12, 12]} style={{ alignItems: 'center' }}>
               <Col span={3}>
-                <Form.Item label="Số chữ trên 1 dòng" name="maxWidth">
+                <Form.Item label="Font" name="font">
                   <Select
-                    options={range(10, 30, 1).map((value) => ({
+                    options={FONTS.map((value) => ({
                       value,
-                      label: value,
+                      label: <Typography style={{ fontFamily: value }}>{value}</Typography>,
                     }))}
                   />
                 </Form.Item>
@@ -86,6 +95,16 @@ const Header = () => {
                   />
                 </Form.Item>
               </Col>
+              <Col span={3}>
+                <Form.Item label="Số chữ trên 1 dòng" name="maxWidth">
+                  <Select
+                    options={range(10, 30, 1).map((value) => ({
+                      value,
+                      label: value,
+                    }))}
+                  />
+                </Form.Item>
+              </Col>
               <Col span={6} style={{ alignItems: 'center', margin: 0 }}>
                 <Form.Item
                   name="showOriginText"
@@ -93,6 +112,13 @@ const Header = () => {
                   style={{ marginBottom: 0 }}
                 >
                   <Checkbox>Hiển thị văn bản gốc</Checkbox>
+                </Form.Item>
+                <Form.Item
+                  name="useCurrentImage"
+                  valuePropName="checked"
+                  style={{ marginBottom: 0 }}
+                >
+                  <Checkbox>Sử dụng hình hiện tại để dịch</Checkbox>
                 </Form.Item>
               </Col>
               <Col>

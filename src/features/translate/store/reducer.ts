@@ -8,21 +8,28 @@ export const initialState: TranslateState = {
   maxWidth: 15,
   showOriginText: false,
   handing: false,
+  useCurrentImage: true,
+  font: '',
 };
 
 const slice = createSlice({
   name: 'translateStore',
   initialState,
   reducers: {
+    changeFont(state, action: PayloadAction<string>) {
+      state.font = action.payload;
+    },
     changeFontSize(state, action: PayloadAction<number>) {
       state.fontSize = action.payload;
     },
     changeShowOriginText(state, action: PayloadAction<boolean>) {
       state.showOriginText = action.payload;
     },
-
     changeMaxWidth(state, action: PayloadAction<number>) {
       state.maxWidth = action.payload;
+    },
+    changeUseCurrentImage(state, action: PayloadAction<boolean>) {
+      state.useCurrentImage = action.payload;
     },
 
     detectBubble(state) {

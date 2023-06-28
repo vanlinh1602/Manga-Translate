@@ -21,4 +21,6 @@ export type TranslateState = {
   handing: boolean;
   originImage?: string;
   dataDetect?: ImageDeteted;
+  useCurrentImage: boolean;
+  font: string;
 };

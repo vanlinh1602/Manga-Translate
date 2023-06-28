@@ -28,13 +28,15 @@ function* detectBubble() {
 function* translateText(action: PayloadAction<DataTranslate[]>) {
   const data = action.payload;
   const translateData: TranslateState = yield select(selectTranslateData);
+  const useOriginImage = !translateData.useCurrentImage;
   const result: WithApiResult<{ image: string }> = yield backendService.post<{ image: string }>(
     '/translateText',
     {
-      image: translateData.originImage,
+      image: useOriginImage ? translateData.originImage : translateData.dataDetect?.imageDetected,
       fontSize: translateData.fontSize,
       maxWidth: translateData.maxWidth,
       dataTrans: data,
+      font: translateData.font ?? 'Roboto',
     }
   );
 

@@ -1,4 +1,10 @@
 import 'styles/index.less';
+import './fonts/Mynerve-Regular.ttf';
+import './fonts/Bangers-Regular.ttf';
+import './fonts/Fruktur-Regular.ttf';
+import './fonts/Gluten-Regular.ttf';
+import './fonts/Roboto-Regular.ttf';
+import './fonts/SedgwickAveDisplay-Regular.ttf';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
