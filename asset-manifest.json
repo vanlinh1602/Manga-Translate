@@ -1,21 +1,27 @@
 {
   "files": {
-    "main.css": "/Manga-Translate/static/css/main.081fb538.css",
-    "main.js": "/Manga-Translate/static/js/main.12aee20f.js",
-    "static/css/972.d5b9a366.chunk.css": "/Manga-Translate/static/css/972.d5b9a366.chunk.css",
-    "static/js/972.6ac8cd2b.chunk.js": "/Manga-Translate/static/js/972.6ac8cd2b.chunk.js",
+    "main.css": "/Manga-Translate/static/css/main.2a170776.css",
+    "main.js": "/Manga-Translate/static/js/main.1a8771f3.js",
+    "static/css/198.f7159b8a.chunk.css": "/Manga-Translate/static/css/198.f7159b8a.chunk.css",
+    "static/js/198.db2e03eb.chunk.js": "/Manga-Translate/static/js/198.db2e03eb.chunk.js",
     "static/js/885.3e63ccd5.chunk.js": "/Manga-Translate/static/js/885.3e63ccd5.chunk.js",
     "static/js/355.acfbcffb.chunk.js": "/Manga-Translate/static/js/355.acfbcffb.chunk.js",
+    "static/media/Mynerve-Regular.ttf": "/Manga-Translate/static/media/Mynerve-Regular.ab34839f557a23921ec9.ttf",
+    "static/media/Fruktur-Regular.ttf": "/Manga-Translate/static/media/Fruktur-Regular.3bc5cc862ba3cb4af48b.ttf",
+    "static/media/Roboto-Regular.ttf": "/Manga-Translate/static/media/Roboto-Regular.fc2b5060f7accec5cf74.ttf",
+    "static/media/SedgwickAveDisplay-Regular.ttf": "/Manga-Translate/static/media/SedgwickAveDisplay-Regular.74c170e1c62b0cd3e85e.ttf",
+    "static/media/Gluten-Regular.ttf": "/Manga-Translate/static/media/Gluten-Regular.57ccae18a4766db23d85.ttf",
+    "static/media/Bangers-Regular.ttf": "/Manga-Translate/static/media/Bangers-Regular.0e89a2279da24d283991.ttf",
     "index.html": "/Manga-Translate/index.html",
-    "main.081fb538.css.map": "/Manga-Translate/static/css/main.081fb538.css.map",
-    "main.12aee20f.js.map": "/Manga-Translate/static/js/main.12aee20f.js.map",
-    "972.d5b9a366.chunk.css.map": "/Manga-Translate/static/css/972.d5b9a366.chunk.css.map",
-    "972.6ac8cd2b.chunk.js.map": "/Manga-Translate/static/js/972.6ac8cd2b.chunk.js.map",
+    "main.2a170776.css.map": "/Manga-Translate/static/css/main.2a170776.css.map",
+    "main.1a8771f3.js.map": "/Manga-Translate/static/js/main.1a8771f3.js.map",
+    "198.f7159b8a.chunk.css.map": "/Manga-Translate/static/css/198.f7159b8a.chunk.css.map",
+    "198.db2e03eb.chunk.js.map": "/Manga-Translate/static/js/198.db2e03eb.chunk.js.map",
     "885.3e63ccd5.chunk.js.map": "/Manga-Translate/static/js/885.3e63ccd5.chunk.js.map",
     "355.acfbcffb.chunk.js.map": "/Manga-Translate/static/js/355.acfbcffb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.081fb538.css",
-    "static/js/main.12aee20f.js"
+    "static/css/main.2a170776.css",
+    "static/js/main.1a8771f3.js"
   ]
 }
