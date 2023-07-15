@@ -14,6 +14,14 @@ export type DataTranslate = {
   location: number[][];
 };
 
+export type Translated = CustomObject<{
+  text: string;
+  location: number[][];
+  font: string;
+  fontSize: number;
+  textInLine: number;
+}>;
+
 export type TranslateState = {
   fontSize: number;
   showOriginText: boolean;
@@ -23,4 +31,5 @@ export type TranslateState = {
   dataDetect?: ImageDeteted;
   useCurrentImage: boolean;
   font: string;
+  translated?: Translated;
 };

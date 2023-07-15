@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 
-import type { DataTranslate, ImageDeteted, TranslateState } from '../types';
+import type { DataTranslate, ImageDeteted, Translated, TranslateState } from '../types';
 
 export const initialState: TranslateState = {
   fontSize: 14,
@@ -9,7 +9,7 @@ export const initialState: TranslateState = {
   showOriginText: false,
   handing: false,
   useCurrentImage: true,
-  font: '',
+  font: 'Gluten',
 };
 
 const slice = createSlice({
@@ -36,7 +36,7 @@ const slice = createSlice({
       state.handing = true;
     },
 
-    translateText(state, _action: PayloadAction<DataTranslate[]>) {
+    translateText(state, _action: PayloadAction<CustomObject<DataTranslate>>) {
       state.handing = true;
     },
 
@@ -53,12 +53,20 @@ const slice = createSlice({
       state.originImage = action.payload;
     },
 
-    updateImageDetect(state, action: PayloadAction<string>) {
-      state.dataDetect = {
-        ...state.dataDetect,
-        imageDetected: action.payload,
-      };
+    updateImageDetect(state, action: PayloadAction<string | undefined>) {
       state.handing = false;
+      if (action.payload) {
+        state.dataDetect = {
+          ...state.dataDetect,
+          imageDetected: action.payload,
+        };
+      }
+    },
+    updateTranslated(state, action: PayloadAction<Translated>) {
+      state.translated = {
+        ...state.translated,
+        ...action.payload,
+      };
     },
   },
 });

@@ -34,14 +34,14 @@ const TranslateOptions = () => {
 
   const handleTranslate = () => {
     const dataForm = form.getFieldsValue();
-    const dataTrans: DataTranslate[] = [];
+    const dataTrans: CustomObject<DataTranslate> = {};
 
     Object.entries(dataForm ?? {}).forEach(([key, data]) => {
       if (data.isTrans) {
-        dataTrans.push({
+        dataTrans[key] = {
           text: dataForm[key].textTrans,
           location: dataDetect?.groupText?.[key].locate!,
-        });
+        };
       }
     });
     dispatch(actions.translateText(dataTrans));
@@ -61,12 +61,12 @@ const TranslateOptions = () => {
     <Layout style={{ background: 'white' }}>
       <Form form={form} layout="vertical">
         {Object.entries(dataDetect?.groupText ?? {})
-          .sort(([a], [b]) => a.localeCompare(b))
+          .sort(([a], [b]) => Number(a.split('p')[1]) - Number(b.split('p')[1]))
           .map(([key]) => (
             <Row gutter={10} align="middle" key={key}>
               {showOriginText ? (
                 <Col span={11}>
-                  <Form.Item label={key} name={[key, 'text']}>
+                  <Form.Item label={key.split('p')[1]} name={[key, 'text']}>
                     <Input />
                   </Form.Item>
                 </Col>

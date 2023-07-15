@@ -3,7 +3,7 @@ import { notification } from 'antd';
 import { all, put, select, takeLatest } from 'redux-saga/effects';
 import { backendService } from 'services';
 
-import type { DataTranslate, ImageDeteted, TranslateState } from '../types';
+import type { DataTranslate, ImageDeteted, Translated, TranslateState } from '../types';
 import { actions as translateAction } from './reducer';
 import { selectOriginImage, selectTranslateData } from './selectors';
 
@@ -25,7 +25,7 @@ function* detectBubble() {
   });
 }
 
-function* translateText(action: PayloadAction<DataTranslate[]>) {
+function* translateText(action: PayloadAction<CustomObject<DataTranslate>>) {
   const data = action.payload;
   const translateData: TranslateState = yield select(selectTranslateData);
   const useOriginImage = !translateData.useCurrentImage;
@@ -35,15 +35,28 @@ function* translateText(action: PayloadAction<DataTranslate[]>) {
       image: useOriginImage ? translateData.originImage : translateData.dataDetect?.imageDetected,
       fontSize: translateData.fontSize,
       maxWidth: translateData.maxWidth,
-      dataTrans: data,
+      dataTrans: Object.values(data).map((value) => value),
       font: translateData.font ?? 'Roboto',
     }
   );
 
   if (result.kind === 'ok') {
+    const translated: Translated = {};
+    Object.entries(data).forEach(([key, value]) => {
+      translated[key] = {
+        text: value.text,
+        location: value.location,
+        font: translateData.font,
+        fontSize: translateData.fontSize,
+        textInLine: translateData.maxWidth,
+      };
+    });
+
     yield put(translateAction.updateImageDetect(result.data.image));
+    yield put(translateAction.updateTranslated(translated));
     return;
   }
+  yield put(translateAction.updateImageDetect());
   notification.warning({
     message: 'Translate Fail',
     description: result.kind,
@@ -52,19 +65,29 @@ function* translateText(action: PayloadAction<DataTranslate[]>) {
 
 function* removeText(action: PayloadAction<CustomObject<number[][]>>) {
   const location = action.payload;
-  const image: string = yield select(selectOriginImage);
+  const translateData: TranslateState = yield select(selectTranslateData);
+
+  const selectedGroup = Object.keys(location).map((key) => key);
+  const transLatedData: Translated = {};
+  Object.entries(translateData.translated ?? {}).forEach(([key, data]) => {
+    if (!selectedGroup.includes(key)) {
+      transLatedData[key] = data;
+    }
+  });
 
   const result: WithApiResult<{ image: string }> = yield backendService.post<{ image: string }>(
     '/removeText',
     {
-      image,
+      image: translateData.originImage,
       location,
+      translated: transLatedData,
     }
   );
   if (result.kind === 'ok') {
     yield put(translateAction.updateImageDetect(result.data.image));
     return;
   }
+  yield put(translateAction.updateImageDetect());
   notification.warning({
     message: 'Remmove Text Fail',
     description: result.kind,

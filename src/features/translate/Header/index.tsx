@@ -28,7 +28,7 @@ const Header = () => {
       showOriginText: translateData.showOriginText,
       maxWidth: translateData.maxWidth,
       useCurrentImage: translateData.useCurrentImage,
-      font: translateData.font,
+      font: translateData.font ?? 'Gluten',
     });
   }, [form, translateData]);
 
@@ -98,7 +98,7 @@ const Header = () => {
               <Col span={3}>
                 <Form.Item label="Số chữ trên 1 dòng" name="maxWidth">
                   <Select
-                    options={range(10, 30, 1).map((value) => ({
+                    options={range(1, 30, 1).map((value) => ({
                       value,
                       label: value,
                     }))}
